@@ -354,6 +354,14 @@ class CmdRun extends CmdBase implements HubOptions {
         else
             throw new AbortOperationException("Invalid Nextflow DSL value: $dsl")
 
+        // -- check if labels propagation feature
+        final defLabelsPropagation = sysEnv.get('NXF_ENABLE_LABELS_PROPAGATION') ?: false
+        final labelsPropagation = config.navigate('nextflow.enable.labelsPropagation', defLabelsPropagation)
+        if( labelsPropagation ) {
+            log.debug "Enabling nextflow labelsPropagation feature"
+            NextflowMeta.instance.labelsPropagation(true)
+        }
+
         // -- script can still override the DSL version
         NextflowMeta.instance.checkDsl2Mode(scriptFile.main.text)
 
