@@ -21,7 +21,6 @@ import java.nio.file.Path
 import java.util.regex.Pattern
 
 import groovy.util.logging.Slf4j
-import groovy.transform.InheritConstructors
 
 import nextflow.processor.TaskRun
 /**                                                    
@@ -186,22 +185,5 @@ class HqExecutor extends AbstractGridExecutor {
         }
 
         return result
-    }
-
-    final protected BashWrapperBuilder createBashWrapperBuilder(TaskRun task) {
-        final builder = new HqWrapperBuilder(task)
-        builder.headerScript = getHeaders(task)
-        return builder
-    }
-
-    @InheritConstructors
-    static class HqWrapperBuilder extends BashWrapperBuilder {
-        Path build() {
-            final wrapper = super.build()
-            // give execute permission to wrapper file
-            wrapper.setExecutable(true)
-            return wrapper
-        }
-
     }
 }
